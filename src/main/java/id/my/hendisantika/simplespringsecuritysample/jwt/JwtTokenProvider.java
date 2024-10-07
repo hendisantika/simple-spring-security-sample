@@ -98,4 +98,8 @@ public class JwtTokenProvider {
 
         return claimsResolver.apply(claims);
     }
+
+    public Date getExpirationDateFromToken(String token) {
+        return getClaimFromToken(token, Claims::getExpiration);
+    }
 }
