@@ -1,5 +1,6 @@
 package id.my.hendisantika.simplespringsecuritysample.service;
 
+import id.my.hendisantika.simplespringsecuritysample.entity.Customer;
 import id.my.hendisantika.simplespringsecuritysample.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,4 +19,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepository customerRepository;
+
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
+    }
 }
