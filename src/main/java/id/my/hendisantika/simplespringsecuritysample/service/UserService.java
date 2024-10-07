@@ -5,6 +5,8 @@ import id.my.hendisantika.simplespringsecuritysample.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : simple-spring-security-sample
@@ -26,5 +28,9 @@ public class UserService {
 
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format("User with that id %d does not found", id)));
+    }
+
+    public Optional<? extends User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
