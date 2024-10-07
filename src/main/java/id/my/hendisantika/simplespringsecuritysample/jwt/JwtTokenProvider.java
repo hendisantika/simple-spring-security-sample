@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class JwtTokenProvider {
@@ -63,5 +64,9 @@ public class JwtTokenProvider {
                 .claim("Role", Role.ADMIN) //TODO: Set claim by User role
                 .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8)), Jwts.SIG.HS256)
                 .compact();
+    }
+
+    public long getJwtExpirationDate() { //TODO: Remove conversion as it is in milliseconds
+        return TimeUnit.MILLISECONDS.toMillis(jwtExpirationDate);
     }
 }
