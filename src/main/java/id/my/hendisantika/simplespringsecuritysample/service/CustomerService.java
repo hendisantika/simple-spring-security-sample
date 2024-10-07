@@ -6,6 +6,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : simple-spring-security-sample
@@ -32,5 +34,9 @@ public class CustomerService {
     public Customer findByEmail(String email) {
         return customerRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Customer with that email %s does not exists", email)));
+    }
+
+    public Optional<Customer> findByEmailOptional(String email) {
+        return customerRepository.findByEmail(email);
     }
 }
