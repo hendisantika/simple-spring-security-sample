@@ -2,6 +2,7 @@ package id.my.hendisantika.simplespringsecuritysample.service;
 
 import id.my.hendisantika.simplespringsecuritysample.entity.Customer;
 import id.my.hendisantika.simplespringsecuritysample.repository.CustomerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +23,9 @@ public class CustomerService {
 
     public Customer save(Customer customer) {
         return customerRepository.save(customer);
+    }
+
+    public Customer findById(Long id) {
+        return customerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Customer with that id %d does not exists", id)));
     }
 }
