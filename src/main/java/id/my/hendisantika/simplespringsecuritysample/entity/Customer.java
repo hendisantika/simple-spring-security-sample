@@ -1,5 +1,6 @@
 package id.my.hendisantika.simplespringsecuritysample.entity;
 
+import id.my.hendisantika.simplespringsecuritysample.entity.enums.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;

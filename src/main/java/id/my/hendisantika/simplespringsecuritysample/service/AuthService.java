@@ -2,6 +2,7 @@ package id.my.hendisantika.simplespringsecuritysample.service;
 
 import id.my.hendisantika.simplespringsecuritysample.entity.JWTAuthResponse;
 import id.my.hendisantika.simplespringsecuritysample.entity.LoginDto;
+import id.my.hendisantika.simplespringsecuritysample.jwt.JwtTokenProvider;
 import id.my.hendisantika.simplespringsecuritysample.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
