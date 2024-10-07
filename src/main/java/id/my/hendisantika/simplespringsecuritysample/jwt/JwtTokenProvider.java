@@ -13,7 +13,10 @@ package id.my.hendisantika.simplespringsecuritysample.jwt;
 
 import id.my.hendisantika.simplespringsecuritysample.entity.enums.Role;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,5 +71,20 @@ public class JwtTokenProvider {
 
     public long getJwtExpirationDate() { //TODO: Remove conversion as it is in milliseconds
         return TimeUnit.MILLISECONDS.toMillis(jwtExpirationDate);
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            return !isTokenExpired(token);
+        } catch (MalformedJwtException e) {
+            logger.error("Invalid JWT token: {}", e.getMessage());
+        } catch (ExpiredJwtException e) {
+            logger.error("JWT token is expired: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            logger.error("JWT token is unsupported: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.error("JWT claims string is empty: {}", e.getMessage());
+        }
+        return false;
     }
 }
