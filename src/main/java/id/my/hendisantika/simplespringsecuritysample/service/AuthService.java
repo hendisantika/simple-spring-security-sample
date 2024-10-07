@@ -1,8 +1,13 @@
 package id.my.hendisantika.simplespringsecuritysample.service;
 
+import id.my.hendisantika.simplespringsecuritysample.entity.JWTAuthResponse;
+import id.my.hendisantika.simplespringsecuritysample.entity.LoginDto;
 import id.my.hendisantika.simplespringsecuritysample.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,4 +27,19 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
+
+    public JWTAuthResponse login(LoginDto loginDto) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtTokenProvider.generateToken(authentication);
+
+        JWTAuthResponse bearer = JWTAuthResponse.builder()
+                .accessToken(token)
+                .tokenType("Bearer")
+                .expiresIn(jwtTokenProvider.getJwtExpirationDate())
+                .build();
+
+        return bearer;
+    }
 }
