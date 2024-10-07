@@ -11,6 +11,7 @@ package id.my.hendisantika.simplespringsecuritysample.jwt;
  * To change this template use File | Settings | File Templates.
  */
 
+import id.my.hendisantika.simplespringsecuritysample.entity.enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -21,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
@@ -48,5 +50,18 @@ public class JwtTokenProvider {
 
 
         return claims.getSubject();
+    }
+
+    private String generateToken(String email) {
+        Date currentDate = new Date();
+        Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
+
+        return Jwts.builder()
+                .subject(email)
+                .issuedAt(currentDate)
+                .expiration(expireDate)
+                .claim("Role", Role.ADMIN) //TODO: Set claim by User role
+                .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8)), Jwts.SIG.HS256)
+                .compact();
     }
 }
