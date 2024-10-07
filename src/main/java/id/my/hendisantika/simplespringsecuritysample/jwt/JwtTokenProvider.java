@@ -14,6 +14,7 @@ package id.my.hendisantika.simplespringsecuritysample.jwt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,4 +27,10 @@ public class JwtTokenProvider {
 
     @Value("${app-jwt-expiration-milliseconds}")
     private long jwtExpirationDate;
+
+    public String generateToken(Authentication authentication) {
+        String username = authentication.getName();
+
+        return generateToken(username);
+    }
 }
