@@ -11,11 +11,16 @@ package id.my.hendisantika.simplespringsecuritysample.jwt;
  * To change this template use File | Settings | File Templates.
  */
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import java.nio.charset.StandardCharsets;
 
 @Component
 public class JwtTokenProvider {
@@ -32,5 +37,16 @@ public class JwtTokenProvider {
         String username = authentication.getName();
 
         return generateToken(username);
+    }
+
+    public String getUsername(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8)))
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+
+        return claims.getSubject();
     }
 }
