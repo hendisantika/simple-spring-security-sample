@@ -28,4 +28,9 @@ public class CustomerService {
     public Customer findById(Long id) {
         return customerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Customer with that id %d does not exists", id)));
     }
+
+    public Customer findByEmail(String email) {
+        return customerRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Customer with that email %s does not exists", email)));
+    }
 }
